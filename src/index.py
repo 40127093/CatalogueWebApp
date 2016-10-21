@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def root():
-  return render_template('index.html'), 200
+  return render_template('layout.html'), 200
 
 
 if __name__ == "__main__":
