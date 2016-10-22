@@ -5,7 +5,21 @@ app = Flask(__name__)
 
 @app.route("/")
 def root():
-  return render_template('home.html'), 200
+  return render_template('layout.html'), 200
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+  return render_template('errorPage.html'), 404
+
+@app.route("/pamela-love/")
+def pl():
+  return render_template('pamela-love.html'), 200
+
+@app.route("/mania-mania/") 
+def mm():
+  return render_template('mania-mania.html'), 200
+
 
 def init (app):
   config = ConfigParser.ConfigParser()
