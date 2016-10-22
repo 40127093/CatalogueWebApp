@@ -20,6 +20,9 @@ def pl():
 def mm():
   return render_template('mania-mania.html'), 200
 
+@app.route("/contactUs/")
+def contactUs():
+  return render_template('contactUs.html'), 200
 
 def init (app):
   config = ConfigParser.ConfigParser()
