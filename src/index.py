@@ -1,6 +1,6 @@
 import ConfigParser
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 app = Flask(__name__)
 
 @app.route("/")
@@ -20,9 +20,15 @@ def pl():
 def mm():
   return render_template('mania-mania.html'), 200
 
-@app.route("/contactUs/")
+@app.route("/contactUs/", methods=['POST','GET'])
 def contactUs():
-  return render_template('contactUs.html'), 200
+  if request.method == 'POST':
+    print request.form
+    name = request.form['first_name']
+    return render_template('POST-response.html', name = name)
+  else:
+    page = render_template('contactUs.html')
+    return page
 
 @app.route("/eilisain-jewelry/")
 def ej():
