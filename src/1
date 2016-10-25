@@ -2,15 +2,8 @@
 
 import ConfigParser , os
 
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request
 app = Flask(__name__)
-app.secret_key = 'supersecret'
-
-from werkzeug.utils import secure_filename
-
-
-UPLOAD_FOLDER = 'static/uploads/'
-app.config['UPLOAD_FOLDER']= UPLOAD_FOLDER
 
 # routing to individual pages
 
@@ -44,33 +37,15 @@ def oo():
   return render_template('omnia-oddities.html'), 200
 
 
-# uploading images function that uses an external library to store files under
-# their original name. Addition of a message flashing feature to indicate to the users the successful
-# upload of their images
-
-
 @app.route("/upload/", methods=['POST','GET'])
 def upload():
   if request.method == 'POST':
-     f= request.files['datafile']
-     filename = secure_filename(f.filename)
-     f.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-     flash('Image uploaded successfully!')
-     return redirect(url_for('uploaded'))
+    f= request.files['datafile']
+    f.save('static/uploads/',datafile)
+    return "File Uploaded"
   else:
-     uploads = os.listdir('static/uploads/')
-     page = render_template('upload-service.html', uploads = uploads)
-     return page, 200
-
-
-# function that helps us retrieve the template with the flashed message and
-# redirects us again to the upload-service.html template to see the updated
-# photo collection after the latest user upload
-
-@app.route('/upload-successful')
-def uploaded():
-  return redirect(url_for('upload'))
-
+    page = render_template('upload-service.html')
+    return page, 200
 
 
 # custom error handling
@@ -78,7 +53,6 @@ def uploaded():
 @app.errorhandler(404)
 def page_not_found(error):
   return render_template('errorPage.html'), 404
-
 
 # GET-POST requests using a feedback form
 
@@ -115,4 +89,4 @@ if __name__ == "__main__":
   init(app)
   app.run(
     host = app.config['ip_address'],
-    port = int(app.config['port']))
+i    port = int(app.config['port']))
