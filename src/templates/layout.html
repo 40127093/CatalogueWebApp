@@ -16,6 +16,8 @@
 
     <!-- Custom CSS -->
     <link href="{{url_for('static', filename='css/shop-homepage.css') }}" rel="stylesheet">
+   
+   <link href="{{url_for('static', filename='css/thumbnail-gallery.css') }}" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -122,15 +124,12 @@ top:0; width:100%; height:100%;">
                         <a href="#"id="victorian" >About us</a>
                     </li>
                     <li>
-                        <a href="#"id="victorian"> Services</a>
+                        <a href="{{url_for('upload')}}"id="victorian">Share your photos with us</a>
                     </li>
                     <li>
                         <a href="{{url_for('contactUs')}}" id="victorian"> Contact Us</a>
                     </li>
-                    <li>
-                        <a href="#"id="victorian"> Shop</a>
-                    </li>
-                </ul>
+                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
