@@ -1,7 +1,9 @@
 # importing necessary libraries
 
 import ConfigParser , os
+import logging
 
+from logging.handlers import RotatingFileHandler
 from flask import Flask, render_template, request, redirect, flash, url_for
 app = Flask(__name__)
 app.secret_key = 'supersecret'
@@ -16,6 +18,8 @@ app.config['UPLOAD_FOLDER']= UPLOAD_FOLDER
 
 @app.route("/")
 def root():
+  this_route = url_for('.root')
+  app.logger.info("Logging a test message from " + this_route)
   return render_template('pamela-love.html'), 200
 
 
@@ -51,6 +55,7 @@ def oo():
 
 @app.route("/upload/", methods=['POST','GET'])
 def upload():
+ try:
   if request.method == 'POST':
      f= request.files['datafile']
      filename = secure_filename(f.filename)
@@ -61,6 +66,9 @@ def upload():
      uploads = os.listdir('static/uploads/')
      page = render_template('upload-service.html', uploads = uploads)
      return page, 200
+ except IOError, e:
+     print "Error: no file was selected, please go back and try again!"
+     sys.exit(1)
 
 
 # function that helps us retrieve the template with the flashed message and
@@ -71,7 +79,9 @@ def upload():
 def uploaded():
   return redirect(url_for('upload'))
 
-
+@app.route('/error')
+def IOError():
+  return redirect(url_for('upload'))
 
 # custom error handling
 
@@ -105,14 +115,31 @@ def init (app):
     app.config['ip_address'] = config.get("config", "ip_address")
     app.config['port'] = config.get("config", "port")
     app.config['url'] = config.get("config", "url")
+
+    app.config['log_file'] = config.get("logging", "name")
+    app.config['log_location'] = config.get("logging", "location")
+    app.config['log_level'] = config.get("logging", "level")
+
   except:
     print "Could not read configuration file from: " , config_location
+
+def logs(app):
+  log_pathname = app.config['log_location']+ app.config['log_file']
+  file_handler = RotatingFileHandler(log_pathname, maxBytes=1024*1024*10 ,
+  backupCount=1024)
+  file_handler.setLevel( app.config['log_level'])
+  formatter = logging.Formatter("%(levelname)s | %(asctime)s | %(module)s | %(funcName)s | %(message)s")
+  file_handler.setFormatter(formatter)
+  app.logger.setLevel(app.config['log_level'])
+  app.logger.addHandler(file_handler)
+
 
 
 # initialisation function
 
 if __name__ == "__main__":
   init(app)
+  logs(app)
   app.run(
     host = app.config['ip_address'],
     port = int(app.config['port']))
