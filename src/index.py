@@ -170,7 +170,14 @@ def requires_login(f):
 @app.route('/logout/')
 def logout():
     session['logged_in'] = False
-    return redirect(url_for('.root'))
+ #  return redirect(url_for('.root'))
+    flash("You have unsuccessfully logged out from our website. Some features will not be available to you. To see the full content or this website please login again")
+    return redirect(url_for('.logged_out'))
+
+
+@app.route("/logged-out/")
+def logged_out():
+    return render_template('logged-out.html')
 
   # redirect function for the logged-in users
 
