@@ -125,6 +125,9 @@ def init (app):
   except:
     print "Could not read configuration file from: " , config_location
 
+
+# setting up a logging feature to record action logs into a text file    
+
 def logs(app):
   log_pathname = app.config['log_location']+ app.config['log_file']
   file_handler = RotatingFileHandler(log_pathname, maxBytes=1024*1024*10 ,
@@ -136,8 +139,14 @@ def logs(app):
   app.logger.addHandler(file_handler)
 
 
+# setting up an authentication mechanism to control user access rights
+
+   # hardcoding the login credentials
+
 valid_email = 'super-user@napier.ac.uk'
 valid_pwhash = 'password'
+
+   # authentication mechanism
 
 def check_auth(email, password):
     if(email == valid_email and 
@@ -145,6 +154,8 @@ def check_auth(email, password):
             return True
     return False
 
+   # setting the status of the user
+   
 def requires_login(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -154,16 +165,21 @@ def requires_login(f):
         return f(*args, **kwargs)
     return decorated
 
+  # function that controls the logout user request
+
 @app.route('/logout/')
 def logout():
     session['logged_in'] = False
     return redirect(url_for('.root'))
 
-@app.route("/secret/")
+  # redirect function for the logged-in users
+
+@app.route("/super-user/")
 @requires_login
 def secret():
     return render_template('logged-in.html')
 
+  # function that controls the login request
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
