@@ -81,6 +81,12 @@ def upload():
 def uploaded():
   return redirect(url_for('upload'))
 
+# function that redirects the user to the About Us page
+
+@app.route('/about-us')
+def aboutUs():
+  return render_template('aboutUs.html')
+
 @app.route('/error')
 def IOError():
   return redirect(url_for('upload'))
@@ -174,6 +180,7 @@ def logout():
     flash("You have unsuccessfully logged out from our website. Some features will not be available to you. To see the full content or this website please login again")
     return redirect(url_for('.logged_out'))
 
+ # function that redirects the user to the logout page
 
 @app.route("/logged-out/")
 def logged_out():
@@ -196,10 +203,11 @@ def login():
         pw = request.form['password']
         
         if check_auth(request.form['email'], request.form['password']):
-            error = 'Wrong Credentials, please try again!'
             session['logged_in'] = True
             flash("Congratulations, you are not logged in! You may enjoy the full content of this website")
             return redirect(url_for('.secret'))
+        else:  
+            error = 'Invalid Credentials, please try again!' 
     return render_template('login.html', error=error)
 
 # initialisation function
