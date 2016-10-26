@@ -22,3 +22,5 @@ INFO | 2016-10-26 12:00:26,720 | index | root | Logging a test message from /
 INFO | 2016-10-26 12:01:19,497 | index | root | Logging a test message from /
 INFO | 2016-10-26 12:12:27,089 | index | root | Logging a test message from /
 INFO | 2016-10-26 14:59:08,270 | index | root | Logging a test message from /
+INFO | 2016-10-26 22:10:08,813 | index | root | Logging a test message from /
+INFO | 2016-10-26 22:12:02,620 | index | root | Logging a test message from /
