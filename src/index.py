@@ -136,7 +136,7 @@ def logs(app):
   app.logger.addHandler(file_handler)
 
 
-valid_email = 'admin@napier.ac.uk'
+valid_email = 'super-user@napier.ac.uk'
 valid_pwhash = 'password'
 
 def check_auth(email, password):
@@ -164,12 +164,14 @@ def logout():
 def secret():
     return render_template('logged-in.html')
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
         user = request.form['email']
         pw = request.form['password']
+        
         if check_auth(request.form['email'], request.form['password']):
             error = 'Wrong Credentials, please try again!'
             session['logged_in'] = True

@@ -119,7 +119,8 @@ top:0; width:100%; height:100%;">
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav" style="font-size:30px;">
+                <ul class="nav navbar-nav" style="font-size:30px;
+                width:900px;">
                     <li>
                         <a href="#"id="victorian" >About us</a>
                     </li>
@@ -128,6 +129,13 @@ top:0; width:100%; height:100%;">
                     </li>
                     <li>
                         <a href="{{url_for('contactUs')}}" id="victorian"> Contact Us</a>
+                    </li>
+                    <li id="victorian" style="margin-left:20%;">
+                        {% if not session.logged_in %}
+                        <a href=" {{ url_for('login')}}">Log in</a>
+                        {% else %}
+                        <a href={{url_for('logout')}}>Log out</a>
+                        {% endif %}
                     </li>
                  </ul>
             </div>

@@ -4,11 +4,11 @@
 <div>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <ul>
+    
     {% for message in messages %}
-      <li style="color:#D5D0B1; font-size:35px;" id="victorian"> {{message | safe}}</li>
+      <p style="color:#D5D0B1; font-size:35px;" id="victorian"> {{message |
+      safe}}</p>
     {% endfor %}
-    </ul>
    {% endif %}
  {% endwith %}
 </div>
