@@ -177,7 +177,7 @@ def requires_login(f):
 def logout():
     session['logged_in'] = False
  #  return redirect(url_for('.root'))
-    flash("You have unsuccessfully logged out from our website. Some features will not be available to you. To see the full content or this website please login again")
+    flash("You have successfully logged out from our website. Some features will not be available to you. To see the full content or this website please login again")
     return redirect(url_for('.logged_out'))
 
  # function that redirects the user to the logout page
