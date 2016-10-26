@@ -1,2 +1,7 @@
 INFO | 2016-10-25 18:22:06,179 | index | root | Logging a test message from /
 INFO | 2016-10-25 18:22:13,192 | index | root | Logging a test message from /
+INFO | 2016-10-26 00:06:26,808 | index | root | Logging a test message from /
+INFO | 2016-10-26 00:06:31,839 | index | root | Logging a test message from /
+INFO | 2016-10-26 00:49:05,115 | index | root | Logging a test message from /
+INFO | 2016-10-26 00:53:23,629 | index | root | Logging a test message from /
+INFO | 2016-10-26 01:44:32,349 | index | root | Logging a test message from /

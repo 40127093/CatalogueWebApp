@@ -3,8 +3,10 @@
 import ConfigParser , os
 import logging
 
+from functools import wraps
+
 from logging.handlers import RotatingFileHandler
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for,session
 app = Flask(__name__)
 app.secret_key = 'supersecret'
 
@@ -134,6 +136,46 @@ def logs(app):
   app.logger.addHandler(file_handler)
 
 
+valid_email = 'admin@napier.ac.uk'
+valid_pwhash = 'password'
+
+def check_auth(email, password):
+    if(email == valid_email and 
+        password == valid_pwhash):
+            return True
+    return False
+
+def requires_login(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        status = session.get('logged_in', False)
+        if not status:
+            return redirect(url_for('.login'))
+        return f(*args, **kwargs)
+    return decorated
+
+@app.route('/logout/')
+def logout():
+    session['logged_in'] = False
+    return redirect(url_for('.root'))
+
+@app.route("/secret/")
+@requires_login
+def secret():
+    return render_template('logged-in.html')
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        user = request.form['email']
+        pw = request.form['password']
+        if check_auth(request.form['email'], request.form['password']):
+            error = 'Wrong Credentials, please try again!'
+            session['logged_in'] = True
+            flash("Congratulations, you are not logged in! You may enjoy the full content of this website")
+            return redirect(url_for('.secret'))
+    return render_template('login.html', error=error)
 
 # initialisation function
 
